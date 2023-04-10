@@ -4,6 +4,8 @@
 #include "QFileDialog"
 #include "QMessageBox"
 
+using namespace std;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -26,4 +28,12 @@ void MainWindow::on_btn_choose_file_clicked()
     // если файл не выбран - убирать, выбран включаем кнопки if (filname=="" && )
 }
 
-//здесь будет код njxyj
+
+void MainWindow::on_btn_upload_clicked()
+{
+    string file_name =  ui->lbl_file->text().toStdString();
+    int ooooooooo=1;
+    char puk;
+
+}
+

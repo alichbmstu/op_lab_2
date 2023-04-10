@@ -18,6 +18,8 @@ public:
 private slots:
     void on_btn_choose_file_clicked();
 
+    void on_btn_upload_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
