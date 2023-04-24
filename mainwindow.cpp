@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 
 #include "QFileDialog"
+#include "logic_op_2.h"
 #include "QMessageBox"
 
 using namespace std;
@@ -32,8 +33,37 @@ void MainWindow::on_btn_choose_file_clicked()
 void MainWindow::on_btn_upload_clicked()
 {
     string file_name =  ui->lbl_file->text().toStdString();
-    int ooooooooo=1;
-    char puk;
-
+    string line;
+    int count;
+    QStringList *region;
+    line = dowland_smth(file_name, count);
+    set_line_into_table(line, count, region);
 }
 
+string MainWindow::dowland_smth(string file_name, int &count){
+    ifstream file(file_name);
+    string line;
+    string str;
+    if (file.is_open()){
+        getline(file, line);
+        stringstream ss(line);
+//        while (getline(ss, str, ','))
+//            count++;
+    }
+    return line;
+}
+
+
+void MainWindow::set_line_into_table(std::string line, int line_int, QStringList *region){
+    stringstream ss(line);
+    string str;
+    int col_int = 0;
+    while (getline(ss, str, ',')){
+        QTableWidgetItem *item = new QTableWidgetItem();
+        item->setText(QString::fromStdString(str));
+        if (ui->table_file->horizontalHeaderItem(col_int)->text() == "region")
+            region->append(QString::fromStdString(str));
+        ui->table_file->setItem(line_int, col_int, item);
+        col_int++;
+    }
+}

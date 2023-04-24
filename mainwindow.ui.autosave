@@ -71,7 +71,7 @@ border-radius:30px; </string>
 border-radius:30px; </string>
     </property>
     <property name="text">
-     <string>Calc</string>
+     <string>Calculate metrics</string>
     </property>
    </widget>
    <widget class="QLabel" name="lbl_file">
@@ -261,7 +261,7 @@ border-radius:30px; </string>
 border-radius:30px; </string>
     </property>
     <property name="text">
-     <string>Upload</string>
+     <string>Load data</string>
     </property>
    </widget>
    <widget class="QTableWidget" name="table_file">
