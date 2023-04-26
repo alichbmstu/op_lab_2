@@ -21,8 +21,8 @@ private slots:
     void on_btn_upload_clicked();
 
 private:
-    void read_headers(string file_name, int *num_col_reg);
-    void regions_to_combo_box();
+    int read_headers(string file_name);
+    int regions_to_combo_box(string file_name, int num_col_reg);
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

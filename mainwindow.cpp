@@ -34,19 +34,44 @@ void MainWindow::on_btn_choose_file_clicked()
 void MainWindow::on_btn_upload_clicked()
 {
     string file_name =  ui->lbl_file->text().toStdString();
-    string line;
-    int *num_col_reg;
-    read_headers(file_name, num_col_reg);
+    string reg_act;
+    int num_col_reg;
+    num_col_reg = read_headers(file_name);
     regions_to_combo_box(file_name, num_col_reg);
-    //data_region_to_table;
+    //ui->cmb_region->currentText();
+    //data_region_to_table(file_name);
 }
 
-void MainWindow::regions_to_combo_box(){};
-
-void MainWindow::read_headers(string file_name, int *num_col_reg){
+int MainWindow::regions_to_combo_box(string file_name, int num_col_reg){
     ifstream file(file_name);
-    QStringList headers;
+    QStringList regions;
+    string full, reg;
+    int *z_arr = (int *)malloc(100);
+    getline(file, full);
+    while (getline(file, full)){
+        int z_cnt=0;
+        for (int i=0;i<full.length();i++){
+            if (full[i]==','){
+               z_arr[z_cnt]=i;
+               // z_arr.push_back(i);
+               z_cnt++;
+            }
+        }
+        reg=full.substr(z_arr[num_col_reg-1]+1, z_arr[num_col_reg]-z_arr[num_col_reg-1]-1);
+        regions.append(QString::fromStdString(reg));
+    }
+    regions.removeDuplicates();
+    regions.sort();
+    ui->cmb_region->addItems(regions);
+    free(z_arr);
+    return 0;
+};
+
+int MainWindow::read_headers(string file_name){
+    int num_col_reg;
+    ifstream file(file_name);
     int col_int=0;
+    QStringList headers;
     string header_str, h;
     getline(file, header_str);
     stringstream ss(header_str);
@@ -54,13 +79,18 @@ void MainWindow::read_headers(string file_name, int *num_col_reg){
         QTableWidgetItem *item = new QTableWidgetItem();
         item->setText(QString::fromStdString(h));
         ui->table_file->setItem(0, col_int, item);
-        if (h == "region")
-            num_col_reg=&col_int;
-        else
-            headers.append(QString::fromStdString(h));
+        headers.append(QString::fromStdString(h));
+        if (h == "region"){
+            num_col_reg=col_int;
+        }else{
+            ui->cmb_columns->addItem(QString::fromStdString(h));
+        }
         col_int++;
     }
-    ui->cmb_columns->addItems(headers);
+    ui->table_file->setRowCount(1);
+    ui->table_file->setColumnCount(col_int);
+    ui->table_file->setHorizontalHeaderLabels(headers);
+    return num_col_reg;
 }
 
 
