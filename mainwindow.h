@@ -21,9 +21,8 @@ private slots:
     void on_btn_upload_clicked();
 
 private:
-    void set_line_into_table(std::string line, int lineInt, QStringList *region);
-    logic_first set_struct_first();
-    string dowland_smth(string file_name, int &count);
+    void read_headers(string file_name, int *num_col_reg);
+    void regions_to_combo_box();
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

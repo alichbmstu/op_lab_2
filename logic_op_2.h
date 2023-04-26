@@ -21,7 +21,6 @@ typedef struct{
     int column_num;
     int row_num;
     error e;
-
 }logic;
 
 typedef struct{
