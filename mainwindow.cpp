@@ -38,10 +38,10 @@ void MainWindow::on_btn_upload_clicked()
     int col_int=0;
     num_col_reg = read_headers(file_name, col_int);
     len = regions_to_combo_box(file_name, num_col_reg);
-    region_data_put_on_table(file_name, num_col_reg, col_int, len);
+    region_data_put_on_table(file_name, col_int, len);
 }
 
-void MainWindow::region_data_put_on_table(string file_name, int num_col_reg, int col_int, int len){
+void MainWindow::region_data_put_on_table(string file_name, int col_int, int len){
     ifstream file(file_name);
     int i=0, j=0;
     string full, piece;
@@ -52,10 +52,8 @@ void MainWindow::region_data_put_on_table(string file_name, int num_col_reg, int
           //string *datas = (string *)malloc(col_int);
           stringstream ss(full);
           while (getline(ss, piece, ',')){
-              if (check_region(file_name, num_col_reg) ==(ui->cmb_region->currentText()).toStdString()){
                 ui->table_file->setItem(i, j, new QTableWidgetItem(QString::fromStdString(piece)));
                 j++;
-              }
           }
           i++;
           j=0;
@@ -63,9 +61,12 @@ void MainWindow::region_data_put_on_table(string file_name, int num_col_reg, int
     }
 }
 
-string MainWindow::check_region(string file_name, int num_col_reg){
+
+int MainWindow::regions_to_combo_box(string file_name, int num_col_reg){
     ifstream file(file_name);
+    QStringList regions;
     string full, reg;
+    int len;
     int *z_arr = (int *)malloc(100);
     if (z_arr!=NULL){
         getline(file, full);
@@ -77,28 +78,16 @@ string MainWindow::check_region(string file_name, int num_col_reg){
                    z_cnt++;
                 }
             }
-         reg=full.substr(z_arr[num_col_reg-1]+1, z_arr[num_col_reg]-z_arr[num_col_reg-1]-1);
-       }
-    } else
-        reg = memory_error;
-    free(z_arr);
-    return reg;
-}
-
-int MainWindow::regions_to_combo_box(string file_name, int num_col_reg){
-    ifstream file(file_name);
-    QStringList regions;
-    string full, reg;
-    int len;
-    getline(file, full);
-    while (getline(file, full)){
-        reg = check_region(file_name, num_col_reg);
-        regions.append(QString::fromStdString(reg));
+            reg=full.substr(z_arr[num_col_reg-1]+1, z_arr[num_col_reg]-z_arr[num_col_reg-1]-1);
+            regions.append(QString::fromStdString(reg));
+        }
         len = regions.length();
         regions.removeDuplicates();
         regions.sort();
         ui->cmb_region->addItems(regions);
-    }
+    } //else
+        //код ошибки
+    free(z_arr);
     return len;
 };
 
