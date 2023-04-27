@@ -5,6 +5,7 @@
 
 using namespace std;
 
+
 enum error{
     no_error,
     memory_error,
@@ -28,5 +29,7 @@ typedef struct{
     int column_num;
     int row_num;
 }returns;
+
+returns calc(logic base);
 
 #endif // LOGIC_OP_2_H
