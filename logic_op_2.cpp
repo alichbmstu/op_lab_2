@@ -5,11 +5,7 @@ returns calc(logic base){
     ifstream file (base.file_name);
     returns res;
     int i, j;
-    string full, piece;
-    getline(file, full);
-    while (getline(file, full)){
-
-    }
+    //вопрос по расположению функций
     return res;
 }
 

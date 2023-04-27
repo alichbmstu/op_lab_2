@@ -70,16 +70,25 @@ void MainWindow::region_data_put_on_table(string file_name, int col_int, int len
 
 void MainWindow::only_chosen_region(string file_name, int num_col_reg){
     ifstream file(file_name);
-    int i;
+    ui->table_file->clear();
+    int i=0, u, j=0;
     string cur_reg = (ui->cmb_region->currentText()).toStdString();
-    string full, reg_from_table;
+    string full, reg_from_table, piece;
     getline(file, full);
+    ui->table_file->setRowCount(100);
+    ui->table_file->setColumnCount(7); //костыль, провеяю что не в этом ошибка просто
     while (getline(file, full)){
         reg_from_table = check_region(num_col_reg, full);
-        if (reg_from_table!=cur_reg){
-            ui->table_file->removeRow(i);
+        if (reg_from_table==cur_reg){
+            stringstream ss(full);
+            while (getline(ss, piece, ',')){
+                  ui->table_file->setItem(i, j, new QTableWidgetItem(QString::fromStdString(piece)));
+                  j++;
+            }
+            i++;
+            j=0;
         }
-        i++;
+        u++;
     }
 }
 
