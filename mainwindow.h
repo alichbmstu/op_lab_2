@@ -20,9 +20,13 @@ private slots:
 
     void on_btn_upload_clicked();
 
+    void on_btn_calc_clicked();
+
 private:
-    int read_headers(string file_name);
+    int read_headers(string file_name, int &col_int);
     int regions_to_combo_box(string file_name, int num_col_reg);
+    void region_data_put_on_table(string file_name, int num_col_reg, int col_int, int len);
+    string check_region(string file_name, int num_col_reg);
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

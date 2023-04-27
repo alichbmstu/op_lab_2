@@ -34,43 +34,78 @@ void MainWindow::on_btn_choose_file_clicked()
 void MainWindow::on_btn_upload_clicked()
 {
     string file_name =  ui->lbl_file->text().toStdString();
-    string reg_act;
-    int num_col_reg;
-    num_col_reg = read_headers(file_name);
-    regions_to_combo_box(file_name, num_col_reg);
-    //ui->cmb_region->currentText();
-    //data_region_to_table(file_name);
+    int num_col_reg, len;
+    int col_int=0;
+    num_col_reg = read_headers(file_name, col_int);
+    len = regions_to_combo_box(file_name, num_col_reg);
+    region_data_put_on_table(file_name, num_col_reg, col_int, len);
+}
+
+void MainWindow::region_data_put_on_table(string file_name, int num_col_reg, int col_int, int len){
+    ifstream file(file_name);
+    int i=0, j=0;
+    string full, piece;
+    getline(file, full);
+    ui->table_file->setRowCount(len);
+    ui->table_file->setColumnCount(col_int);
+    while (getline(file, full)){
+          //string *datas = (string *)malloc(col_int);
+          stringstream ss(full);
+          while (getline(ss, piece, ',')){
+              if (check_region(file_name, num_col_reg) ==(ui->cmb_region->currentText()).toStdString()){
+                ui->table_file->setItem(i, j, new QTableWidgetItem(QString::fromStdString(piece)));
+                j++;
+              }
+          }
+          i++;
+          j=0;
+          //free(datas);
+    }
+}
+
+string MainWindow::check_region(string file_name, int num_col_reg){
+    ifstream file(file_name);
+    string full, reg;
+    int *z_arr = (int *)malloc(100);
+    if (z_arr!=NULL){
+        getline(file, full);
+        while (getline(file, full)){
+            int z_cnt=0;
+            for (int i=0;i<full.length();i++){
+                if (full[i]==','){
+                   z_arr[z_cnt]=i;
+                   z_cnt++;
+                }
+            }
+         reg=full.substr(z_arr[num_col_reg-1]+1, z_arr[num_col_reg]-z_arr[num_col_reg-1]-1);
+       }
+    } else
+        reg = memory_error;
+    free(z_arr);
+    return reg;
 }
 
 int MainWindow::regions_to_combo_box(string file_name, int num_col_reg){
     ifstream file(file_name);
     QStringList regions;
     string full, reg;
-    int *z_arr = (int *)malloc(100);
+    int len;
     getline(file, full);
     while (getline(file, full)){
-        int z_cnt=0;
-        for (int i=0;i<full.length();i++){
-            if (full[i]==','){
-               z_arr[z_cnt]=i;
-               // z_arr.push_back(i);
-               z_cnt++;
-            }
-        }
-        reg=full.substr(z_arr[num_col_reg-1]+1, z_arr[num_col_reg]-z_arr[num_col_reg-1]-1);
+        reg = check_region(file_name, num_col_reg);
         regions.append(QString::fromStdString(reg));
+        len = regions.length();
+        regions.removeDuplicates();
+        regions.sort();
+        ui->cmb_region->addItems(regions);
     }
-    regions.removeDuplicates();
-    regions.sort();
-    ui->cmb_region->addItems(regions);
-    free(z_arr);
-    return 0;
+    return len;
 };
 
-int MainWindow::read_headers(string file_name){
+
+int MainWindow::read_headers(string file_name, int &col_int){
     int num_col_reg;
     ifstream file(file_name);
-    int col_int=0;
     QStringList headers;
     string header_str, h;
     getline(file, header_str);
@@ -94,42 +129,11 @@ int MainWindow::read_headers(string file_name){
 }
 
 
+void MainWindow::on_btn_calc_clicked()
+{
+    logic base;
+    base.file_name =  ui->lbl_file->text().toStdString();
+    base.region = (ui->cmb_region->currentText()).toStdString();
+    //data_region_to_table(base);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//string MainWindow::dowland_smth(string file_name, int &count){
-//    ifstream file(file_name);
-//    string line;
-//    string str;
-//    if (file.is_open()){
-//        getline(file, line);
-//        stringstream ss(line);
-//    }
-//    return line;
-//}
-
-
-//void MainWindow::set_line_into_table(std::string line, int line_int, QStringList *region){
-//    stringstream ss(line);
-//    string str;
-//    int col_int = 0;
-//    while (getline(ss, str, ',')){
-//        QTableWidgetItem *item = new QTableWidgetItem();
-//        item->setText(QString::fromStdString(str));
-//        if (ui->table_file->horizontalHeaderItem(col_int)->text() == "region")
-//            region->append(QString::fromStdString(str));
-//        ui->table_file->setItem(line_int, col_int, item);
-//        col_int++;
-//    }
-//}
