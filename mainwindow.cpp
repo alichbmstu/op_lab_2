@@ -41,10 +41,13 @@ void MainWindow::on_btn_calc_clicked()
 void MainWindow::on_btn_upload_clicked()
 {
     logic base;
+    returns res;
     base.file_name =  ui->lbl_file->text().toStdString();
     base.region = (ui->cmb_region->currentText()).toStdString();
     int col_int=0;
-    calc(base);
+    res = calc(base);
+    region_data_put_on_table(res);
+    region_only_put_on_table(res);
 }
 //void MainWindow::region_data_put_on_table(string file_name, int col_int, int len){
 //    ifstream file(file_name);

@@ -1,4 +1,5 @@
 #include "logic_op_2.h"
+//#include "mainwindow.h"
 #include <sstream>
 //бизнес-логика
 
@@ -17,7 +18,7 @@ returns calc(logic base){
     //int i, j;
     // read all data (region/cols)
     read_headers(base, res);
-    region_data_put_on_table(res);
+    //region_data_put_on_table(res);
     regions_to_combo_box(base, res);
     read_all_data(base, res);
     // read with region

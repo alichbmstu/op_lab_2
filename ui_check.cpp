@@ -11,6 +11,11 @@ void MainWindow::region_data_put_on_table(returns res){
             ui->table_file->setItem(i, j, new QTableWidgetItem(QString::fromStdString(res.data[i][j])));
         }
     }
+    QStringList r;
+    for (int y=0; y<res.combo_boxik_with_regions->length();y++){
+        r.append(QString::fromStdString(res.combo_boxik_with_regions[y]));
+    }
+    ui->cmb_region->addItems(r);
 }
 
 void MainWindow::region_only_put_on_table(returns res){
