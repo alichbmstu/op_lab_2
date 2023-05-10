@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 enum error{
     no_error,
     memory_error,
@@ -14,22 +13,27 @@ enum error{
 
 typedef struct{
     string region;
-    string header;
+    //string header;
     string file_name;
-    double min;
-    double med;
-    double max;
-    int column_num;
-    int row_num;
+    int choosed_col_num;
+    string *data;
     error e;
 }logic;
 
 typedef struct{
     char ***data;
-    int column_num;
-    int row_num;
+    string *headers;
+    string *combo_boxik_with_regions;
+    int len_of_all_table;
+    int num_col_reg;
+    int how_many_cols_in_table;
+    double min;
+    double med;
+    double max;
 }returns;
 
 returns calc(logic base);
+string search_region(int num_col_reg, string full);
+void read_headers(logic &base, returns &res);
 
 #endif // LOGIC_OP_2_H

@@ -1,7 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include "logic_op_2.h"
+//#include "logic_op_2.h"
+//#include "ui_check.h"
 #include <QMainWindow>
+
+using namespace std;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,7 +28,6 @@ private slots:
     void on_cmb_region_currentTextChanged(const QString &arg1);
 
 private:
-    int read_headers(string file_name, int &col_int);
     void only_chosen_region(string file_name, int num_col_reg);
     string check_region(int num_col_reg, string full);
     int regions_to_combo_box(string file_name, int num_col_reg);
