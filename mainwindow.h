@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-//#include "logic_op_2.h"
+#include "logic_op_2.h"
 //#include "ui_check.h"
 #include <QMainWindow>
 
@@ -30,8 +30,7 @@ private slots:
 private:
     void only_chosen_region(string file_name, int num_col_reg);
     string check_region(int num_col_reg, string full);
-    int regions_to_combo_box(string file_name, int num_col_reg);
-    void region_data_put_on_table(string file_name, int col_int, int len);
+    void region_data_put_on_table(returns res);
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

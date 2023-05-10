@@ -44,30 +44,28 @@ void MainWindow::on_btn_upload_clicked()
     base.file_name =  ui->lbl_file->text().toStdString();
     base.region = (ui->cmb_region->currentText()).toStdString();
     int col_int=0;
-    //data_f.num_col_reg = read_headers(file_name, col_int);
-   // data_f.number_of_cols=col_int;
-    data_f.len_of_all_table = regions_to_combo_box(file_name, num_col_reg);
-    region_data_put_on_table(file_name, col_int, len);
+    //2
+   // region_data_put_on_table(file_name, col_int, len);
 }
-void MainWindow::region_data_put_on_table(string file_name, int col_int, int len){
-    ifstream file(file_name);
-    int i=0, j=0;
-    string full, piece;
-    getline(file, full);
-    ui->table_file->setRowCount(len);
-    ui->table_file->setColumnCount(col_int);
-    while (getline(file, full)){
-          //string *datas = (string *)malloc(col_int);
-          stringstream ss(full);
-          while (getline(ss, piece, ',')){
-                ui->table_file->setItem(i, j, new QTableWidgetItem(QString::fromStdString(piece)));
-                j++;
-          }
-          i++;
-          j=0;
-          //free(datas);
-    }
-}
+//void MainWindow::region_data_put_on_table(string file_name, int col_int, int len){
+//    ifstream file(file_name);
+//    int i=0, j=0;
+//    string full, piece;
+//    getline(file, full);
+//    ui->table_file->setRowCount(len);
+//    ui->table_file->setColumnCount(col_int);
+//    while (getline(file, full)){
+//          //string *datas = (string *)malloc(col_int);
+//          stringstream ss(full);
+//          while (getline(ss, piece, ',')){
+//                ui->table_file->setItem(i, j, new QTableWidgetItem(QString::fromStdString(piece)));
+//                j++;
+//          }
+//          i++;
+//          j=0;
+//          //free(datas);
+//    }
+//}
 
 void MainWindow::only_chosen_region(string file_name, int num_col_reg){
     ifstream file(file_name);
@@ -93,26 +91,26 @@ void MainWindow::only_chosen_region(string file_name, int num_col_reg){
     }
 }
 
-int MainWindow::regions_to_combo_box(string file_name, int num_col_reg){
-    ifstream file(file_name);
-    QStringList regions;
-    string full, reg;
-    int len;
-    int *z_arr = (int *)malloc(100);
-    if (z_arr!=NULL){
-        getline(file, full); //убираю хэдр
-        while (getline(file, full)){
-            reg = search_region(num_col_reg, full);
-            regions.append(QString::fromStdString(reg));
-        }
-        len = regions.length();
-        regions.removeDuplicates();
-        regions.sort();
-        ui->cmb_region->addItems(regions);
-    } else QMessageBox::information(this,"Error", "Memory allocation");
-    free(z_arr);
-    return len;
-};
+//int MainWindow::regions_to_combo_box(string file_name, int num_col_reg){
+//    ifstream file(file_name);
+//    QStringList regions;
+//    string full, reg;
+//    int len;
+//    int *z_arr = (int *)malloc(100);
+//    if (z_arr!=NULL){
+//        getline(file, full); //убираю хэдр
+//        while (getline(file, full)){
+//            reg = search_region(num_col_reg, full);
+//            regions.append(QString::fromStdString(reg));
+//        }
+//        len = regions.length();
+//        regions.removeDuplicates();
+//        regions.sort();
+//        ui->cmb_region->addItems(regions);
+//    } else QMessageBox::information(this,"Error", "Memory allocation");
+//    free(z_arr);
+//    return len;
+//};
 
 //string MainWindow::check_region(int num_col_reg, string full){
 //    int *z_arr = (int *)malloc(100);
