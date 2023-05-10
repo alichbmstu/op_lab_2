@@ -44,8 +44,7 @@ void MainWindow::on_btn_upload_clicked()
     base.file_name =  ui->lbl_file->text().toStdString();
     base.region = (ui->cmb_region->currentText()).toStdString();
     int col_int=0;
-    //2
-   // region_data_put_on_table(file_name, col_int, len);
+    calc(base);
 }
 //void MainWindow::region_data_put_on_table(string file_name, int col_int, int len){
 //    ifstream file(file_name);
@@ -67,29 +66,29 @@ void MainWindow::on_btn_upload_clicked()
 //    }
 //}
 
-void MainWindow::only_chosen_region(string file_name, int num_col_reg){
-    ifstream file(file_name);
-    ui->table_file->clear();
-    int i=0, u, j=0;
-    string cur_reg = (ui->cmb_region->currentText()).toStdString();
-    string full, reg_from_table, piece;
-    getline(file, full);
-    ui->table_file->setRowCount(100);
-    ui->table_file->setColumnCount(7); //пока так надо убрать
-    while (getline(file, full)){
-        reg_from_table = search_region(num_col_reg, full);
-        if (reg_from_table==cur_reg){
-            stringstream ss(full);
-            while (getline(ss, piece, ',')){
-                  ui->table_file->setItem(i, j, new QTableWidgetItem(QString::fromStdString(piece)));
-                  j++;
-            }
-            i++;
-            j=0;
-        }
-        u++;
-    }
-}
+//void MainWindow::only_chosen_region(string file_name, int num_col_reg){
+//    ifstream file(file_name);
+//    ui->table_file->clear();
+//    int i=0, u, j=0;
+//    string cur_reg = (ui->cmb_region->currentText()).toStdString();
+//    string full, reg_from_table, piece;
+//    getline(file, full);
+//    ui->table_file->setRowCount(100);
+//    ui->table_file->setColumnCount(7); //пока так надо убрать
+//    while (getline(file, full)){
+//        reg_from_table = search_region(num_col_reg, full);
+//        if (reg_from_table==cur_reg){
+//            stringstream ss(full);
+//            while (getline(ss, piece, ',')){
+//                  ui->table_file->setItem(i, j, new QTableWidgetItem(QString::fromStdString(piece)));
+//                  j++;
+//            }
+//            i++;
+//            j=0;
+//        }
+//        u++;
+//    }
+//}
 
 //int MainWindow::regions_to_combo_box(string file_name, int num_col_reg){
 //    ifstream file(file_name);
@@ -153,10 +152,11 @@ void MainWindow::only_chosen_region(string file_name, int num_col_reg){
 //    return num_col_reg;
 //}
 
-void MainWindow::on_cmb_region_currentTextChanged(const QString &arg)
+void MainWindow::on_cmb_region_currentTextChanged(const QString &arg1)
 {
-    string file_name =  ui->lbl_file->text().toStdString();
-    string cur = (ui->lbl_num_col->text()).toStdString();
-    int num_col_reg = stoi(cur);
-    only_chosen_region(file_name, num_col_reg);
+    logic lek;
+    returns rek;
+    lek.region = (ui->lbl_num_col->text()).toStdString();
+    //region_only_put_on_table(tek);
+    only_chosen_region(lek, rek);
 }

@@ -28,7 +28,8 @@ private slots:
     void on_cmb_region_currentTextChanged(const QString &arg1);
 
 private:
-    void only_chosen_region(string file_name, int num_col_reg);
+    //void only_chosen_region(returns res);
+    void region_only_put_on_table(returns res);
     string check_region(int num_col_reg, string full);
     void region_data_put_on_table(returns res);
     Ui::MainWindow *ui;

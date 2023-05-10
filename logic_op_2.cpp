@@ -1,6 +1,5 @@
 #include "logic_op_2.h"
 #include <sstream>
-
 //бизнес-логика
 
 
@@ -10,13 +9,15 @@ void regions_to_combo_box(logic &base, returns &res);
 void free_matrix_memory(string **matrix, int rows);
 string **alloc_memory_matrix(returns &res);
 void read_all_data(logic &base, returns &res);
+void only_chosen_region(logic &base, returns &res);
 
 returns calc(logic base){
-    ifstream file (base.file_name);
+    //ifstream file (base.file_name);
     returns res;
-    int i, j;
+    //int i, j;
     // read all data (region/cols)
     read_headers(base, res);
+    region_data_put_on_table(res);
     regions_to_combo_box(base, res);
     read_all_data(base, res);
     // read with region
@@ -74,7 +75,7 @@ void read_headers(logic &base, returns &res){
     getline(file, header_str);
     stringstream ss(header_str);
     while (getline(ss, h, ',')){ //пока делится запятыми
-        res.headers[res.how_many_cols_in_table] = h; //в массив хэдеров добавляем поделение название колонок
+        res.headers[res.how_many_cols_in_table] = h; //в массив хэдеров добавляем поделенные название колонок
         if (h == "region"){
             res.num_col_reg = res.how_many_cols_in_table; // номер столбца региона
         }
@@ -96,6 +97,31 @@ void regions_to_combo_box(logic &base, returns &res){
     res.len_of_all_table = len;
     //ui->cmb_region->addItems(regions);
 };
+
+void only_chosen_region(logic &base, returns &res){
+    ifstream file(base.file_name);
+    //ui->table_file->clear();
+    int i=0,u, j=0;
+    res.choosen_data = alloc_memory_matrix(res);
+    string cur_reg = base.region;
+    string full, reg_from_table, piece;
+    getline(file, full);
+    //ui->table_file->setRowCount(100);
+    //ui->table_file->setColumnCount(7); //пока так надо убрать
+    while (getline(file, full)){
+        reg_from_table = search_region(res.num_col_reg, full);
+        if (reg_from_table==cur_reg){
+            stringstream ss(full);
+            while (getline(ss, piece, ',')){
+                  res.choosen_data[i][j]=piece;
+                  //ui->table_file->setItem(i, j, new QTableWidgetItem(QString::fromStdString(piece)));
+                  j++;
+            }
+            i++;
+            j=0;
+        }
+    }
+}
 
 
 

@@ -24,6 +24,7 @@ typedef struct{
 
 typedef struct{
     string **data;
+    string **choosen_data;
     string *headers;
     string *combo_boxik_with_regions;
     int len_of_all_table;
@@ -42,5 +43,6 @@ void regions_to_combo_box(logic &base, returns &res);
 void free_matrix_memory(string **matrix, int rows);
 string **alloc_memory_matrix(returns &res);
 void read_all_data(logic &base, returns &res);
+void only_chosen_region(logic &base, returns &res);
 
 #endif // LOGIC_OP_2_H
