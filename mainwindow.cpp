@@ -33,8 +33,7 @@ void MainWindow::on_btn_calc_clicked()
 {
     logic base;
     base.file_name =  ui->lbl_file->text().toStdString();
-    base.region = (ui->cmb_region->currentText()).toStdString();
-    //base.header = (ui->cmb_columns->currentText()).toStdString();
+    base.flag=1;
     calc(base);
 }
 
@@ -43,7 +42,7 @@ void MainWindow::on_btn_upload_clicked()
     logic base;
     returns res;
     base.file_name =  ui->lbl_file->text().toStdString();
-    base.region = (ui->cmb_region->currentText()).toStdString();
+   // base.region = (ui->cmb_region->currentText()).toStdString();
     int col_int=0;
     res = calc(base);
     region_data_put_on_table(res);
@@ -159,7 +158,7 @@ void MainWindow::on_cmb_region_currentTextChanged(const QString &arg1)
 {
     logic lek;
     returns rek;
-    lek.region = (ui->lbl_num_col->text()).toStdString();
+    //lek.region = (ui->lbl_num_col->text()).toStdString();
     //region_only_put_on_table(tek);
-    only_chosen_region(lek, rek);
+    //only_chosen_region(lek, rek);
 }

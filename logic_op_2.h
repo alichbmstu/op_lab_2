@@ -1,7 +1,7 @@
 #ifndef LOGIC_OP_2_H
 #define LOGIC_OP_2_H
 
-#define ALL 2500
+#define WORK 100
 
 #include <fstream>
 
@@ -14,19 +14,16 @@ enum error{
 };
 
 typedef struct{
-    string region;
-    //string header;
     string file_name;
-    int choosed_col_num;
-    string *data;
-    error e;
+    int flag;
+    error err;
 }logic;
 
 typedef struct{
     string **data;
     string **choosen_data;
-    string *headers;
-    string *combo_boxik_with_regions;
+    char **headers;
+    char **combo_boxik_with_regions;
     int len_of_all_table;
     int num_col_reg;
     int how_many_cols_in_table;
@@ -37,7 +34,7 @@ typedef struct{
 }returns;
 
 returns calc(logic base);
-string search_region(int num_col_reg, string full);
+char * search_region(int num_col_reg, string full);
 void read_headers(logic &base, returns &res);
 void regions_to_combo_box(logic &base, returns &res);
 void free_matrix_memory(string **matrix, int rows);
