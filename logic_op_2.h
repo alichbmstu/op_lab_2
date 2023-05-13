@@ -34,7 +34,7 @@ typedef struct{
 }returns;
 
 returns calc(logic base);
-char * search_region(int num_col_reg, string full);
+string search_region(int num_col_reg, string full);
 void read_headers(logic &base, returns &res);
 void regions_to_combo_box(logic &base, returns &res);
 void free_matrix_memory(string **matrix, int rows);

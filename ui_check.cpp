@@ -3,6 +3,21 @@
 #include "ui_mainwindow.h"
 //вывод в интерфейс
 
+void put_cmb_reg(returns res);
+
+void MainWindow::one_enter(int flag_a, returns res){
+    if (flag_a = CMB_REG){
+        put_cmb_reg(res);
+    }
+}
+
+
+void put_cmb_reg(returns res){
+     int a=1;
+}
+
+
+
 void MainWindow::region_data_put_on_table(returns res){
 //    ui->table_file->setRowCount(res.len_of_all_table);
 //    ui->table_file->setColumnCount(res.how_many_cols_in_table);

@@ -45,9 +45,26 @@ void MainWindow::on_btn_upload_clicked()
    // base.region = (ui->cmb_region->currentText()).toStdString();
     int col_int=0;
     res = calc(base);
+    QStringList arr;
+    arr= do_list(res);
+    arr.removeDuplicates();
+    arr.sort();
+    ui->cmb_region->addItems(arr);
     region_data_put_on_table(res);
     region_only_put_on_table(res);
 }
+
+QStringList MainWindow::do_list(returns res){
+    QStringList arr;
+    string h;
+    for (int i=0; i<res.len_of_all_table;i++){
+        h = (string) res.combo_boxik_with_regions[i];
+        arr.append(QString::fromStdString(h));
+    }
+    return arr;
+}
+
+
 //void MainWindow::region_data_put_on_table(string file_name, int col_int, int len){
 //    ifstream file(file_name);
 //    int i=0, j=0;

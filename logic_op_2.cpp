@@ -112,13 +112,17 @@ void read_headers(logic &base, returns &res){
 void regions_to_combo_box(logic &base, returns &res){
     ifstream file(base.file_name);
     char **regi; // init массив
-    regi = alloc_memory_matrix(regi, WORK, WORK, res);
-    string full, reg;
+    regi = alloc_memory_matrix(regi, WORK*WORK, WORK*WORK, res);
+    string full;
+    char *reg;
+    string s_reg;
     int len=0;
     getline(file, full); //убираю хэдр
     while (getline(file, full)){
-            reg = search_region(res.num_col_reg, full); // ищу регион
-            regi[len]=(char*)reg.c_str(); // регион добавляю в комбобокс
+            s_reg = search_region(res.num_col_reg, full); // ищу регион
+            strcpy(regi[len], s_reg.c_str());
+            //auto ptr = regi + len;
+            //regi[len]=reg; // регион добавляю в комбобокс
             len++;
     }
     res.len_of_all_table = len;
@@ -153,8 +157,8 @@ void regions_to_combo_box(logic &base, returns &res){
 
 
 
-char * search_region(int num_col_reg, string full){ //отделяю название региона от остальной строки
-    int *z_arr = (int *)malloc(WORK); //массив для позиций запятых
+string search_region(int num_col_reg, string full){ //отделяю название региона от остальной строки
+    int *z_arr = (int *)malloc(WORK*sizeof(int)); //массив для позиций запятых
     int z_cnt = 0;
     string res;
     for (int i=0;i<full.length();i++){
@@ -164,9 +168,9 @@ char * search_region(int num_col_reg, string full){ //отделяю название региона о
         }
     }
     res = full.substr(z_arr[num_col_reg-1]+1, z_arr[num_col_reg]-z_arr[num_col_reg-1]-1); //отделяю название региона
-    free(z_arr);
-    char *u =(char *)res.c_str();
-    return u;
+    //char *u;
+    //free(z_arr);
+    return res;
 }
 
 

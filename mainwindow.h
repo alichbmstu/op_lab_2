@@ -3,7 +3,10 @@
 #include "logic_op_2.h"
 //#include "ui_check.h"
 #include <QMainWindow>
-
+#define CMB_REG 0
+#define FIRST_READ 1
+#define CMB_PAR 2
+#define SMTH_TABLE 3
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -17,6 +20,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void one_enter(int flag_a, returns res);
 
 private slots:
     void on_btn_choose_file_clicked();
@@ -32,6 +36,8 @@ private:
     void region_only_put_on_table(returns res);
     string check_region(int num_col_reg, string full);
     void region_data_put_on_table(returns res);
+    QStringList do_list(returns res);
     Ui::MainWindow *ui;
 };
+
 #endif // MAINWINDOW_H
