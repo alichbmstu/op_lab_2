@@ -1,9 +1,10 @@
 #ifndef UI_CHECK_H
 #define UI_CHECK_H
 #include "logic_op_2.h"
-#include <iostream>
+//#include <iostream>
 #include <QMainWindow>
 
-void put_cmb_reg(returns res);
+
+QStringList to_do_list(returns res);
 
 #endif // UI_CHECK_H

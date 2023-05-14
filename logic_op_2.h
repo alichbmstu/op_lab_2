@@ -20,17 +20,17 @@ typedef struct{
 }logic;
 
 typedef struct{
-    string **data;
-    string **choosen_data;
-    char **headers;
-    char **combo_boxik_with_regions;
-    int len_of_all_table;
+    char ***data;
+    char ***choosen_data;
+    char **headers; //yes
+    char **combo_boxik_with_regions; //yes
+    int len_of_all_table; //yes
     int num_col_reg;
-    int how_many_cols_in_table;
+    int how_many_cols_in_table; //yes
     double min;
     double med;
     double max;
-    error err;
+    error err; //yes
 }returns;
 
 returns calc(logic base);
@@ -41,5 +41,6 @@ void free_matrix_memory(string **matrix, int rows);
 string **alloc_memory_matrix(returns &res);
 void read_all_data(logic &base, returns &res);
 void only_chosen_region(logic &base, returns &res);
+void free_three_point_matrix(char ***arr, int a1, int a2);
 
 #endif // LOGIC_OP_2_H

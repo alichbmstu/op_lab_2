@@ -1,22 +1,41 @@
-//#include "ui_check.h"
+#include <QMainWindow>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 //вывод в интерфейс
 
-void put_cmb_reg(returns res);
+void put_cmb(returns res);
+
+QStringList do_list(char **mas, int len);
 
 void MainWindow::one_enter(int flag_a, returns res){
-    if (flag_a = CMB_REG){
-        put_cmb_reg(res);
+    if (flag_a == CMB_REG){
+        put_cmb(res);
     }
 }
 
 
-void put_cmb_reg(returns res){
-     int a=1;
+void MainWindow::put_cmb(returns res){
+     QStringList arr_c;
+     arr_c= do_list(res.combo_boxik_with_regions, res.len_of_all_table);
+     ui->cmb_region->addItems(arr_c);
+     QStringList arr_h;
+     arr_h= do_list(res.headers, res.how_many_cols_in_table);
+     ui->cmb_columns->addItems(arr_h);
 }
 
-
+QStringList do_list(char ** mas, int len){
+    QStringList arr;
+    string h;
+    for (int i=0; i<len;i++){
+        h = (string) mas[i];
+        if (h!="region"){
+            arr.append(QString::fromStdString(h));
+        }
+    }
+    arr.removeDuplicates();
+    arr.sort();
+    return arr;
+}
 
 void MainWindow::region_data_put_on_table(returns res){
 //    ui->table_file->setRowCount(res.len_of_all_table);

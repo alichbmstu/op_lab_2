@@ -33,7 +33,7 @@ void MainWindow::on_btn_calc_clicked()
 {
     logic base;
     base.file_name =  ui->lbl_file->text().toStdString();
-    base.flag=1;
+    base.flag=7;
     calc(base);
 }
 
@@ -41,28 +41,24 @@ void MainWindow::on_btn_upload_clicked()
 {
     logic base;
     returns res;
+    base.flag=1;
     base.file_name =  ui->lbl_file->text().toStdString();
    // base.region = (ui->cmb_region->currentText()).toStdString();
-    int col_int=0;
     res = calc(base);
-    QStringList arr;
-    arr= do_list(res);
-    arr.removeDuplicates();
-    arr.sort();
-    ui->cmb_region->addItems(arr);
-    region_data_put_on_table(res);
-    region_only_put_on_table(res);
+    one_enter(CMB_REG, res);
+//    region_data_put_on_table(res);
+//    region_only_put_on_table(res);
 }
 
-QStringList MainWindow::do_list(returns res){
-    QStringList arr;
-    string h;
-    for (int i=0; i<res.len_of_all_table;i++){
-        h = (string) res.combo_boxik_with_regions[i];
-        arr.append(QString::fromStdString(h));
-    }
-    return arr;
-}
+//QStringList MainWindow::do_list(returns res){
+//    QStringList arr;
+//    string h;
+//    for (int i=0; i<res.len_of_all_table;i++){
+//        h = (string) res.combo_boxik_with_regions[i];
+//        arr.append(QString::fromStdString(h));
+//    }
+//    return arr;
+//}
 
 
 //void MainWindow::region_data_put_on_table(string file_name, int col_int, int len){
