@@ -38,14 +38,11 @@ void read_data_from_parameter(logic &base, returns &res){
     int j=0;
     for (int i=0; i<res.how_many_cols_in_table; i++){
         string t = (string)res.headers[i];
-        if (t==base.param && t!="year")
-            j=i+1;
-        else if (t==base.param && t!="year")
+        if (t==base.param)
             j=i;
     }
 
     //костыль, подумать
-
 
     char **params; //массив под значения параметра
     params = alloc_memory_matrix(WORK*10, res.how_many_cols_in_table, res); //добавить роус по региону
@@ -64,19 +61,17 @@ void read_data_from_parameter(logic &base, returns &res){
 }
 
 
-int swap(double *ch1, double *ch2){
-    double current;
-    current=*ch1;
-    *ch1=*ch2;
-    *ch2=current;
-    return *ch1, *ch2;
+void swap(char *a, char *b) {
+    char temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
 char **sorting(char **arr, int end){
     for (int i = 0; i < end-1; ++i)
         for (int j = 0; j < end-1; ++j)
-            if (arr[i]<arr[i+1]){
-                swap(*(arr+j), *(arr+j+1));
+            if (arr[j]>arr[j+1]){
+                swap(arr[j], (arr[j+1]));
             }
     return arr;
 }

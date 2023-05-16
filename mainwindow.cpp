@@ -38,7 +38,7 @@ void MainWindow::on_btn_calc_clicked()
     base.param = ui->cmb_columns->currentText().toStdString();
     base.flag = 222;
     res = calc(base);
-    ui->lbl_min_num->setText(QString::fromStdString(res.min));
+    ui->lbl_min_num->setText(QString::fromStdString(res.min));  //в уи убрать
 }
 
 void MainWindow::on_btn_upload_clicked()
