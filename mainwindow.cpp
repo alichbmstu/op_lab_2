@@ -32,33 +32,26 @@ void MainWindow::on_btn_choose_file_clicked()
 void MainWindow::on_btn_calc_clicked()
 {
     logic base;
+    returns res;
     base.file_name =  ui->lbl_file->text().toStdString();
-    base.flag=7;
-    calc(base);
+    base.region = ui->cmb_region->currentText().toStdString();
+    base.param = ui->cmb_columns->currentText().toStdString();
+    base.flag = 222;
+    res = calc(base);
+    ui->lbl_min_num->setText(QString::fromStdString(res.min));
 }
 
 void MainWindow::on_btn_upload_clicked()
 {
     logic base;
     returns res;
-    base.flag=1;
+    base.flag = 1;
     base.file_name =  ui->lbl_file->text().toStdString();
-   // base.region = (ui->cmb_region->currentText()).toStdString();
     res = calc(base);
     one_enter(CMB_REG, res);
-//    region_data_put_on_table(res);
-//    region_only_put_on_table(res);
+    one_enter(SMTH_TABLE, res);
 }
 
-//QStringList MainWindow::do_list(returns res){
-//    QStringList arr;
-//    string h;
-//    for (int i=0; i<res.len_of_all_table;i++){
-//        h = (string) res.combo_boxik_with_regions[i];
-//        arr.append(QString::fromStdString(h));
-//    }
-//    return arr;
-//}
 
 
 //void MainWindow::region_data_put_on_table(string file_name, int col_int, int len){

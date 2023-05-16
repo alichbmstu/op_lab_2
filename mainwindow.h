@@ -3,9 +3,9 @@
 #include "logic_op_2.h"
 #include <QMainWindow>
 #define CMB_REG 0
-#define FIRST_READ 1
-#define CMB_PAR 2
-#define SMTH_TABLE 3
+#define CUR_REG 1
+#define SMTH_TABLE 2
+#define CMB_PAR 3
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -35,7 +35,7 @@ private:
     //void only_chosen_region(returns res);
     void region_only_put_on_table(returns res);
     string check_region(int num_col_reg, string full);
-    void region_data_put_on_table(returns res);
+    void data_put_on_table(returns res, int rows);
     Ui::MainWindow *ui;
 };
 
