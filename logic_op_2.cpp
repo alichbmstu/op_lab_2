@@ -3,7 +3,7 @@
 #include <sstream>
 //бизнес-логика
 
-
+void select_data_for_output(logic base, returns &res);
 void read_headers(logic &base, returns &res);
 string search_region(int num_col_reg, string full);
 void regions_to_combo_box(logic &base, returns &res);
@@ -21,29 +21,42 @@ returns calc(logic base){
         regions_to_combo_box(base, res);
         data_to_table(base, res);
     }
-    if (base.flag==222){
+    if (base.flag==222){ //норм макросы
+        select_data_for_output(base, res);
         read_data_from_parameter(base, res);
-        calc_max_med_min(res);
+        calc_max_med_min(res); //добавить вывод в консоль
     }
-    ///read_data_with_region + ui
-    //read_all_data(base, res);
-    // read with region
-    // calc metrics
+    ///select_data_for_output + u
     return res;
+}
+
+void select_data_for_output(logic base, returns &res){
+        ifstream file(base.file_name);
+        int i=0,j=0;
+        res.choosen_data = alloc_memory_three_point_matrix(WORK, res.how_many_cols_in_table, res);
+        string cur_reg = base.region;
+        string full, reg_from_table, piece;
+        getline(file, full);
+        while (getline(file, full)){
+            reg_from_table = search_region(res.num_col_reg, full);
+            if (reg_from_table==cur_reg){
+                stringstream ss(full);
+                while (getline(ss, piece, ',')){
+                      strcpy(res.choosen_data[i][j], piece.c_str());
+                      j++;
+                }
+                i++;
+                j=0;
+            }
+        }
 }
 
 void read_data_from_parameter(logic &base, returns &res){
     ifstream file(base.file_name);
-    int len = 0;
-    int j=0;
-    for (int i=0; i<res.how_many_cols_in_table; i++){
-        string t = (string)res.headers[i];
-        if (t==base.param)
+    int len = 0, j=0;
+    for (int i=0; i<res.how_many_cols_in_table; i++)
+        if ((string)res.headers[i]==base.param)
             j=i;
-    }
-
-    //костыль, подумать
-
     char **params; //массив под значения параметра
     params = alloc_memory_matrix(WORK*10, res.how_many_cols_in_table, res); //добавить роус по региону
     string full, piece; //вспомагательные
@@ -51,36 +64,55 @@ void read_data_from_parameter(logic &base, returns &res){
     if (params != NULL) {
         while (getline(file, full)){
             if (search_region(res.num_col_reg, full)==base.region){
-                piece = search_region(j, full); // ищу регион
+                piece = search_region(j, full); // ищу регион // попровить назв функ
                 strcpy(params[len], piece.c_str());
                 len++;
             }
         }
     }
     res.choosen_arr = params;
+    res.len_of_choosen_arr = len;
 }
 
 
-void swap(char *a, char *b) {
-    char temp = *a;
+void swap(char **a, char **b) {
+    char *temp = *a;
     *a = *b;
     *b = temp;
 }
 
 char **sorting(char **arr, int end){
     for (int i = 0; i < end-1; ++i)
-        for (int j = 0; j < end-1; ++j)
-            if (arr[j]>arr[j+1]){
+        for (int j = 0; j < end-1 - i; ++j)
+            if (atof(arr[j])>atof(arr[j+1])){
                 swap(arr[j], (arr[j+1]));
             }
+
     return arr;
 }
 
 void calc_max_med_min(returns &res){
-    res.choosen_arr = sorting(res.choosen_arr, WORK);
-    res.min =res.choosen_arr[0];
+    res.choosen_arr = sorting(res.choosen_arr, res.len_of_choosen_arr);
+        for (int i = 0; i < res.len_of_choosen_arr; i++) {
+            if (res.choosen_arr[i][0] <= '9' && res.choosen_arr[i][0] >= '0') {
+                res.min =res.choosen_arr[i];
+                break;
+            }
+    }
+    for (int i = 0; i < res.len_of_choosen_arr; i++) {
+        if (res.choosen_arr[res.len_of_choosen_arr - 1 - i][0] <= '9' &&
+                res.choosen_arr[res.len_of_choosen_arr - 1 - i][0] >= '0') {
+            res.max =res.choosen_arr[res.len_of_choosen_arr - 1 - i];
+            break;
+        }
+    }
+    if (res.len_of_choosen_arr % 2 == 0) {
+        res.med = to_string((atof(res.choosen_arr[res.len_of_choosen_arr/2]) +
+                atof(res.choosen_arr[res.len_of_choosen_arr/2 - 1])) / 2);
+    } else {
+        res.med = to_string(atof(res.choosen_arr[res.len_of_choosen_arr/2]));
+    }
 }
-
 
 void data_to_table(logic &base, returns &res){
     ifstream file(base.file_name);
@@ -101,11 +133,11 @@ char***alloc_memory_three_point_matrix(int rows, int cols, returns &res){
     char ***data = (char ***)malloc(rows*sizeof(char**));
     if (data!=NULL){
         for (int i = 0; i < rows; i++){
-            *(data+i) = (char **)malloc(WORK * sizeof(char*));
+            *(data+i) = (char **)malloc(res.how_many_cols_in_table* sizeof(char*));
             if (*(data+i)==NULL){
                 free_matrix_memory(*data,i-1);
                 res.err=memory_error;
-                data=NULL;
+                data = NULL;
                 break;
             }
             if (*(data+i)!=NULL){
@@ -126,7 +158,7 @@ char***alloc_memory_three_point_matrix(int rows, int cols, returns &res){
     return data;
 }
 
-void free_three_point_matrix(char ***arr, int a1, int a2){
+void    free_three_point_matrix(char ***arr, int a1, int a2){
     for (int i = 0; i < a1; i++)
         free_matrix_memory(*(arr+i), a2);
     free(arr);

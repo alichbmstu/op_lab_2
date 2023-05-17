@@ -6,6 +6,7 @@
 #define CUR_REG 1
 #define SMTH_TABLE 2
 #define CMB_PAR 3
+#define PUT_REG 4
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -35,7 +36,7 @@ private:
     //void only_chosen_region(returns res);
     void region_only_put_on_table(returns res);
     string check_region(int num_col_reg, string full);
-    void data_put_on_table(returns res, int rows);
+    void data_put_on_table(char ***data, returns res, int rows);
     Ui::MainWindow *ui;
 };
 

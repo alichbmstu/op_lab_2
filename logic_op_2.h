@@ -1,7 +1,7 @@
 #ifndef LOGIC_OP_2_H
 #define LOGIC_OP_2_H
 
-#define WORK 100
+#define WORK 60
 
 #include <fstream>
 
@@ -22,11 +22,13 @@ typedef struct{
 
 typedef struct{
     char ***data;
+    char ***choosen_data;
     char **choosen_arr;
     char **headers; //yes
     char **combo_boxik_with_regions; //yes
     int len_of_all_table; //yes
-    int num_col_reg;
+    int len_of_choosen_arr;
+    int num_col_reg; //yes
     int how_many_cols_in_table; //yes
     string min;
     string med;
