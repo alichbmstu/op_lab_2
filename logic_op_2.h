@@ -1,7 +1,8 @@
 #ifndef LOGIC_OP_2_H
 #define LOGIC_OP_2_H
 
-#define WORK 60
+#define WORK 50
+#define STR 28
 
 #include <fstream>
 
@@ -24,28 +25,32 @@ typedef struct{
     char ***data;
     char ***choosen_data;
     char **choosen_arr;
-    char **headers; //yes
-    char **combo_boxik_with_regions; //yes
-    int len_of_all_table; //yes
-    int len_of_choosen_arr;
-    int num_col_reg; //yes
-    int how_many_cols_in_table; //yes
+    char **headers;
+    char **combo_boxik_with_regions;
     string min;
-    string med;
     string max;
-    error err; //yes
+    float med;
+    int len_of_all_table;
+    int len_of_choosen_arr;
+    int num_col_reg;
+    int how_many_cols_in_table;
+    error err;
 }returns;
 
 returns calc(logic base);
+void select_data_for_output(logic base, returns &res);
+void read_data_from_parameter(logic base, returns &res);
+void swap(char **a, char **b);
+char **sorting(char **arr, int end);
+void read_headers(string filename, returns &res);
 string search_region(int num_col_reg, string full);
-void read_headers(logic &base, returns &res);
-void regions_to_combo_box(logic &base, returns &res);
-void free_matrix_memory(string **matrix, int rows);
-string **alloc_memory_matrix(returns &res);
-void read_all_data(logic &base, returns &res);
+void regions_to_combo_box(string filename, returns &res);
+void free_matrix_memory(char **matrix, int rows);
+void  free_three_point_matrix(char ***arr, int a1, int a2);
+char **alloc_memory_matrix(int rows, int cols, returns &res);
+char ***alloc_memory_three_point_matrix(int rows, int cols, returns &res);
+void data_to_table(string filename, returns &res);
 void only_chosen_region(logic &base, returns &res);
-void free_three_point_matrix(char ***arr, int a1, int a2);
 void calc_max_med_min(returns &res);
-char **sorting(double **arr, int end);
 
 #endif // LOGIC_OP_2_H

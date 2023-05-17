@@ -2,11 +2,12 @@
 #define MAINWINDOW_H
 #include "logic_op_2.h"
 #include <QMainWindow>
-#define CMB_REG 0
-#define CUR_REG 1
-#define SMTH_TABLE 2
-#define CMB_PAR 3
-#define PUT_REG 4
+#define CMB_REG 5
+#define CUR_REG 6
+#define SMTH_TABLE 7
+#define CMB_PAR 8
+#define PUT_REG 9
+#define MMM 10
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +23,7 @@ public:
     ~MainWindow();
     void one_enter(int flag_a, returns res);
     void put_cmb(returns res);
+    void metrics_to_ui(returns res);
 
 private slots:
     void on_btn_choose_file_clicked();

@@ -36,20 +36,17 @@ void MainWindow::on_btn_calc_clicked()
     base.file_name =  ui->lbl_file->text().toStdString();
     base.region = ui->cmb_region->currentText().toStdString();
     base.param = ui->cmb_columns->currentText().toStdString();
-    base.flag = 222;
+    base.flag = 1;
     res = calc(base);
-    ui->lbl_min_num->setText(QString::fromStdString(res.min));
-    ui->lbl_med_num->setText(QString::fromStdString(res.med));
-    ui->lbl_max_num->setText(QString::fromStdString(res.max));
-    //ui->lbl_min_num->setText(QString::fromStdString(res.min));  //в уи убрать
     one_enter(PUT_REG, res);
+    one_enter(MMM, res);
 }
 
 void MainWindow::on_btn_upload_clicked()
 {
     logic base;
     returns res;
-    base.flag = 1;
+    base.flag = 0;
     base.file_name =  ui->lbl_file->text().toStdString();
     res = calc(base);
     one_enter(CMB_REG, res);
@@ -78,91 +75,6 @@ void MainWindow::on_btn_upload_clicked()
 //    }
 //}
 
-//void MainWindow::only_chosen_region(string file_name, int num_col_reg){
-//    ifstream file(file_name);
-//    ui->table_file->clear();
-//    int i=0, u, j=0;
-//    string cur_reg = (ui->cmb_region->currentText()).toStdString();
-//    string full, reg_from_table, piece;
-//    getline(file, full);
-//    ui->table_file->setRowCount(100);
-//    ui->table_file->setColumnCount(7); //пока так надо убрать
-//    while (getline(file, full)){
-//        reg_from_table = search_region(num_col_reg, full);
-//        if (reg_from_table==cur_reg){
-//            stringstream ss(full);
-//            while (getline(ss, piece, ',')){
-//                  ui->table_file->setItem(i, j, new QTableWidgetItem(QString::fromStdString(piece)));
-//                  j++;
-//            }
-//            i++;
-//            j=0;
-//        }
-//        u++;
-//    }
-//}
-
-//int MainWindow::regions_to_combo_box(string file_name, int num_col_reg){
-//    ifstream file(file_name);
-//    QStringList regions;
-//    string full, reg;
-//    int len;
-//    int *z_arr = (int *)malloc(100);
-//    if (z_arr!=NULL){
-//        getline(file, full); //убираю хэдр
-//        while (getline(file, full)){
-//            reg = search_region(num_col_reg, full);
-//            regions.append(QString::fromStdString(reg));
-//        }
-//        len = regions.length();
-//        regions.removeDuplicates();
-//        regions.sort();
-//        ui->cmb_region->addItems(regions);
-//    } else QMessageBox::information(this,"Error", "Memory allocation");
-//    free(z_arr);
-//    return len;
-//};
-
-//string MainWindow::check_region(int num_col_reg, string full){
-//    int *z_arr = (int *)malloc(100);
-//    int z_cnt=0;
-//    string res;
-//    for (int i=0;i<full.length();i++){
-//        if (full[i]==','){
-//           z_arr[z_cnt]=i;
-//           z_cnt++;
-//        }
-//    }
-//    res = full.substr(z_arr[num_col_reg-1]+1, z_arr[num_col_reg]-z_arr[num_col_reg-1]-1);
-//    free(z_arr);
-//    return res;
-//}
-
-//int MainWindow::read_headers(string file_name, int &col_int){
-//    int num_col_reg;
-//    ifstream file(file_name);
-//    QStringList headers;
-//    string header_str, h;
-//    getline(file, header_str);
-//    stringstream ss(header_str);
-//    while (getline(ss, h, ',')){
-//        QTableWidgetItem *item = new QTableWidgetItem();
-//        item->setText(QString::fromStdString(h));
-//        ui->table_file->setItem(0, col_int, item);
-//        headers.append(QString::fromStdString(h));
-//        if (h == "region"){
-//            num_col_reg=col_int;
-//        }else{
-//            ui->cmb_columns->addItem(QString::fromStdString(h));
-//        }
-//        col_int++;
-//    }
-//    //не работает
-//    ui->table_file->setRowCount(1);
-//    ui->table_file->setColumnCount(col_int);
-//    ui->table_file->setHorizontalHeaderLabels(headers);
-//    return num_col_reg;
-//}
 
 void MainWindow::on_cmb_region_currentTextChanged(const QString &arg1)
 {

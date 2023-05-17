@@ -13,10 +13,16 @@ void MainWindow::one_enter(int flag_a, returns res){ //убрать из класса
         put_cmb(res);
     if (flag_a == SMTH_TABLE)
         data_put_on_table(res.data, res, WORK);
-    if (flag_a == PUT_REG){
-        ui->table_file->clear();
-        data_put_on_table(res.choosen_data, res, WORK);
-    }
+    if (flag_a == PUT_REG)
+        data_put_on_table(res.choosen_data, res, STR);
+    if (flag_a == MMM)
+        metrics_to_ui(res);
+}
+
+void MainWindow::metrics_to_ui(returns res){
+    ui->lbl_min_num->setText(QString::fromStdString(res.min));
+    ui->lbl_med_num->setText(QString::number(res.med, 'l', 1));
+    ui->lbl_max_num->setText(QString::fromStdString(res.max));
 }
 
 
@@ -34,11 +40,11 @@ QStringList do_list(char **mas, int len, int flag){
     string h;
     for (int i=0; i<len;i++){
         h = (string) mas[i];
-        if (flag!=CMB_REG){
-            if (h!="region")
-                arr.append(QString::fromStdString(h));
-        }else
-            arr.append(QString::fromStdString(h));
+        if (h!="region" && (flag==CMB_REG || flag==CMB_PAR)){
+                    arr.append(QString::fromStdString(h));
+        } else if (flag == SMTH_TABLE){
+                    arr.append(QString::fromStdString(h));
+                }
     }
     if (flag==CMB_REG){
         arr.removeDuplicates();
