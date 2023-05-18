@@ -8,6 +8,7 @@
 #define CMB_PAR 8
 #define PUT_REG 9
 #define MMM 10
+#define QM 11
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -21,9 +22,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void one_enter(int flag_a, returns res);
-    void put_cmb(returns res);
-    void metrics_to_ui(returns res);
 
 private slots:
     void on_btn_choose_file_clicked();
@@ -32,13 +30,14 @@ private slots:
 
     void on_btn_calc_clicked();
 
-    void on_cmb_region_currentTextChanged(const QString &arg1);
-
 private:
-    //void only_chosen_region(returns res);
-    void region_only_put_on_table(returns res);
-    string check_region(int num_col_reg, string full);
+
+    void one_enter(int flag_a, returns res);
+    void put_cmb(returns res);
+    void metrics_to_ui(returns res);
+    void any_errors(returns res);
     void data_put_on_table(char ***data, returns res, int rows);
+
     Ui::MainWindow *ui;
 };
 

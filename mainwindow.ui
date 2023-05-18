@@ -75,6 +75,9 @@ border-radius:20px; </string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_calc">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -363,6 +366,9 @@ border-radius:23px;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_upload">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>190</x>

@@ -2,10 +2,11 @@
 #include <cstring>
 #include <sstream>
 #include "math.h"
+
 returns calc(logic base){
     returns res;
     string filename = base.file_name;
-    if (base.flag!=-1){
+    if (base.flag!=STR){
         read_headers(filename, res);
         regions_to_combo_box(filename, res);
         data_to_table(filename, res);
@@ -13,7 +14,7 @@ returns calc(logic base){
     if (base.flag==1){
         select_data_for_output(base, res);
         read_data_from_parameter(base, res);
-        calc_max_med_min(res); //добавить вывод в консоль
+        calc_max_med_min(res);
     }
     return res;
 }
@@ -21,7 +22,7 @@ returns calc(logic base){
 void select_data_for_output(logic base, returns &res){
         ifstream file(base.file_name);
         int i=0, j=0;
-        res.choosen_data = alloc_memory_three_point_matrix(WORK, res.how_many_cols_in_table, res);
+        res.choosen_data = alloc_memory_three_point_matrix(WORK, res.how_many_cols_in_table+1, res);
         string cur_reg = base.region;
         string full, reg_from_table, piece;
         getline(file, full);
@@ -32,9 +33,12 @@ void select_data_for_output(logic base, returns &res){
                 while (getline(ss, piece, ',')){
                     if (piece == "")
                         piece = " ";
-                      strcpy(res.choosen_data[i][j], piece.c_str());
-                      j++;
+                     strcpy(res.choosen_data[i][j], piece.c_str());
+                     j++;
                 }
+                if (piece == "")
+                    piece = " ";
+                    strcpy(res.choosen_data[i][j], piece.c_str());
                 i++;
                 j=0;
             }
@@ -54,10 +58,11 @@ void read_data_from_parameter(logic base, returns &res){
     if (params != NULL) {
         while (getline(file, full)){
             if (search_region(res.num_col_reg, full) == base.region){
-                piece = search_region(j, full);// ищу регион // попровить назв функ
-                if (piece != "" && piece != " ") {
-                strcpy(params[len], piece.c_str());
-                len++; }
+                piece = search_region(j, full);// ищу регион
+                if (piece != "" && piece != "\n") {
+                    strcpy(params[len], piece.c_str());
+                    len++;
+                }
             }
         }
     }
@@ -83,7 +88,7 @@ char **sorting(char **arr, int end){
 
 void calc_max_med_min(returns &res){
     res.choosen_arr = sorting(res.choosen_arr, res.len_of_choosen_arr);
-        for (int i = 0; i < res.len_of_choosen_arr; i++) {
+    for (int i = 0; i < res.len_of_choosen_arr; i++) {
             if ((res.choosen_arr[i][0] <= '9' && res.choosen_arr[i][0] >= '0')|| res.choosen_arr[i][0]=='-') {
                 res.min = res.choosen_arr[i];
                 break;
@@ -91,16 +96,29 @@ void calc_max_med_min(returns &res){
     }
     for (int i = 0; i < res.len_of_choosen_arr; i++) {
         if ((res.choosen_arr[res.len_of_choosen_arr - 1 - i][0] <= '9' &&
-                res.choosen_arr[res.len_of_choosen_arr - 1 - i][0] >= '0') || res.choosen_arr[i][0]=='-') {
-            res.max = res.choosen_arr[res.len_of_choosen_arr - 1 - i];
+             res.choosen_arr[res.len_of_choosen_arr - 1 - i][0] >= '0') || res.choosen_arr[i][0]=='-') {
+         res.max = res.choosen_arr[res.len_of_choosen_arr - 1 - i];
             break;
+        } else{
+            res.err=calc_error;
         }
     }
-    if (res.len_of_choosen_arr % 2 == 0) {
-        res.med = (((atof(res.choosen_arr[res.len_of_choosen_arr/2]) +
-                    atof(res.choosen_arr[res.len_of_choosen_arr/2 - 1])) / 2));;
-     }else {
-        res.med = (atof(res.choosen_arr[res.len_of_choosen_arr/2]));
+    work_with_med(res);
+}
+
+void work_with_med(returns &res){
+    if (res.len_of_choosen_arr!=1){
+        if (res.len_of_choosen_arr % 2 == 0) {
+            res.med = (((atof(res.choosen_arr[res.len_of_choosen_arr/2]) +
+                        atof(res.choosen_arr[res.len_of_choosen_arr/2 - 1])) / 2));
+        }else{
+            res.med = (atof(res.choosen_arr[res.len_of_choosen_arr/2]));
+        }
+     }else if ((res.choosen_arr[0][0] <= '9' &&
+                res.choosen_arr[0][0] >= '0') || res.choosen_arr[0][0]=='-'){
+        res.med = atoi(res.choosen_arr[0]);
+    }else{
+        res.err=calc_error;
     }
 }
 
@@ -123,7 +141,7 @@ char***alloc_memory_three_point_matrix(int rows, int cols, returns &res){
     char ***data = (char ***)malloc(rows*sizeof(char**));
     if (data!=NULL){
         for (int i = 0; i < rows; i++){
-            *(data+i) = (char **)malloc(res.how_many_cols_in_table* sizeof(char*));
+            *(data+i) = (char **)malloc(cols * sizeof(char*));
             if (*(data+i)==NULL){
                 free_matrix_memory(*data,i-1);
                 res.err=memory_error;
@@ -182,7 +200,7 @@ void read_headers(string filename, returns &res){
     ifstream file(filename); //открываем файл
     char **headers; //массив под заголовки //char*
     headers = alloc_memory_matrix(WORK, WORK, res);
-    res.how_many_cols_in_table=0;
+    res.how_many_cols_in_table = 0;
     if (headers != NULL) {
         string header_str, h; //вспомагательные
         getline(file, header_str);
@@ -201,7 +219,7 @@ void read_headers(string filename, returns &res){
 void regions_to_combo_box(string filename, returns &res){
     ifstream file(filename);
     char **regi; // init массив
-    regi = alloc_memory_matrix(WORK*WORK, WORK*WORK, res);
+    regi = alloc_memory_matrix(CR, STR, res);
     string full, s_reg;
     int len=0;
     getline(file, full); //убираю хэдр

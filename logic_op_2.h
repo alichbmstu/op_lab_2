@@ -3,15 +3,17 @@
 
 #define WORK 50
 #define STR 28
+#define CR 2500
+#define ERR 12346
 
 #include <fstream>
 
 using namespace std;
 
 enum error{
-    no_error,
     memory_error,
-    calc_error
+    calc_error,
+    file_error
 };
 
 typedef struct{
@@ -52,5 +54,6 @@ char ***alloc_memory_three_point_matrix(int rows, int cols, returns &res);
 void data_to_table(string filename, returns &res);
 void only_chosen_region(logic &base, returns &res);
 void calc_max_med_min(returns &res);
+void work_with_med(returns &res);
 
 #endif // LOGIC_OP_2_H
