@@ -11,7 +11,7 @@ void MainWindow::one_enter(int flag_a, returns res){
     ui->table_file->setEditTriggers(QAbstractItemView::NoEditTriggers);
     if (flag_a == CMB_REG)      put_cmb(res);
     if (flag_a == SMTH_TABLE)   data_put_on_table(res.data, res, WORK);
-    if (flag_a == PUT_REG)      data_put_on_table(res.choosen_data, res, res.len_of_choosen_arr);
+    if (flag_a == PUT_REG)      data_put_on_table(res.choosen_data, res, res.len_of_all_table);
     if (flag_a == MMM)          metrics_to_ui(res);
     if (flag_a == QM)           any_errors(res);
 }

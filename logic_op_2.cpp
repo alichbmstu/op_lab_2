@@ -54,13 +54,15 @@ void read_data_from_parameter(logic base, returns &res){
     char **params; //массив под значения параметра
     params = alloc_memory_matrix(WORK, res.how_many_cols_in_table, res); //добавить роус по региону
     string full, piece; //вспомагательные
+    res.len_of_all_table = 0;
     getline(file, full);
     if (params != NULL) {
         while (getline(file, full)){
             if (search_region(res.num_col_reg, full) == base.region){
                 piece = search_region(j, full);// ищу регион
+                res.len_of_all_table++;
+                strcpy(params[len], piece.c_str());
                 if (piece != "" && piece != "\n") {
-                    strcpy(params[len], piece.c_str());
                     len++;
                 }
             }
